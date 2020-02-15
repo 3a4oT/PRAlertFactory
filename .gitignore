@@ -1,0 +1,29 @@
+# XCode
+.DS_Store
+/.build
+/Packages
+xcuserdata/
+*.bak
+*.xccheckout
+DerivedData
+
+# Merge files
+*.orig
+
+# Carthage
+Carthage
+
+# xcpretty
+build.log
+
+# ruby
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/test/tmp/
+/test/version_tmp/
+/tmp/

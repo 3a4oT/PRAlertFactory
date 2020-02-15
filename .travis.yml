@@ -1,0 +1,26 @@
+language: swift
+osx_image: xcode11.3
+xcode_project: PRAlertFactory.xcodeproj
+xcode_scheme: PRAlertFactory
+env:
+  global: FRAMEWORK_NAME=PRAlertFactory
+before_script:
+- brew update
+- brew outdated carthage || brew upgrade carthage
+- gem install xcpretty
+- gem install xcpretty-travis-formatter
+script:
+- xcodebuild -project PRAlertFactory.xcodeproj -scheme PRAlertFactory -sdk iphonesimulator  -destination
+  'platform=iOS Simulator,name=iPhone 11,OS=13.3' -configuration Debug test | xcpretty
+before_deploy:
+- carthage build --no-skip-current
+- carthage archive $FRAMEWORK_NAME
+deploy:
+  provider: releases
+  api_key:
+    secure: dWT7q5r74H+y9FCLetUAcjpgHhcthCuxKs3xOCh7WihiFnQGAKqTBsxq8eLfablKt+qyD9PE8+KgwiLESHi/MrcrGQJGGCGaBB94ueAnPeB+sed9Hp4LI9XPH6jqAW7WGcwkxJz5QA09zwih/y6QPvd7IRG/oUFF88siUJdVU9i7Q60MezcuhjNUQPQQSYDQ47WX1sR3J/kbqx3/IwybHuIKftcyLSWq9AoRNqBrSmPkY8BcydVE6FGS3j04AEcUcP8RVkOfBT4hhSxXVjRfbqPToLn+YNJFn+0ORtmnWKSzP+PuscSjFdtHbXbFMTb7pywJlgy7+eBY4A6AdxKuZg1r+zekOVYomT8fIU77okKRHwIRIPligbdrOuratch49A9qO9KGmPA9LHSlg347ByQTVEpZZGBExwLQlDQ2VG88fEt4cdoQXep/XKSuWYqci2a+M9C6uGhwGk9eCAw/w8T0O7pOVF1zg/PGxaJ5pbo/bY0pFvP+TYEud3Wb92b7px2Rjdawc5fsaFl0aOFbd42GbbLXhGQNGwkE8I1qVI4R9S4yQPkabz2mWALL8gmcYCqv3rk6zOWxeOX1C3yuyUDA4MzKpohqlZ/X4YSut0l65n+fK8EOqX/qwJQxEa6zjApLMMBt+NDQqafe8YoBl8Y551Y3cYYaR5ppCt/ojf0=
+  file: "$FRAMEWORK_NAME.framework.zip"
+  skip_cleanup: true
+  on:
+    repo: 3a4oT/PRAlertFactory
+    tags: true
